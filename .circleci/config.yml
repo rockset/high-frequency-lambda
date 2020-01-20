@@ -1,0 +1,16 @@
+version: 2.1
+orbs:
+  aws-s3: circleci/aws-s3@1.0.13
+jobs:
+  test:
+    docker:
+      - image: circleci/golang:1.13
+    working_directory: /go/src/github.com/{{ORG_NAME}}/{{REPO_NAME}}
+    steps:
+      - checkout
+      - run: go test -v
+      - run: go build -o iterator
+      - run: zip -r iterator.zip iterator
+      - aws-s3/copy:
+          from: iterator.zip
+            to: 's3://rockset-public'
