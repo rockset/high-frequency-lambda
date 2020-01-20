@@ -1,8 +1,5 @@
 package main
 
-// GOOS=linux go build -o iterator && zip -r iterator.zip iterator && aws s3 cp iterator.zip s3://rockset-high-frequency-lambda/iterator.zip
-// aws lambda update-function-code --function-name hfl-iterator --s3-bucket rockset-high-frequency-lambda --s3-key iterator.zip
-
 import (
 	"context"
 	"errors"
