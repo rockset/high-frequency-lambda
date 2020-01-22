@@ -16,8 +16,8 @@ resource "aws_lambda_function" "iterator" {
 
   environment {
     variables = {
-      LAMBDA = var.target_lambda
-      REGION = "us-west-2"
+      "LAMBDA" = var.target_lambda
+      "REGION" = "us-west-2"
     }
   }
 }
