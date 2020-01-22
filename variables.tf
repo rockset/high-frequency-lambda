@@ -1,5 +1,5 @@
 variable "s3_bucket" {
-  default = "rockset-pbulic"
+  default = "rockset-public"
 }
 
 variable "s3_key" {
