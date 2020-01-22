@@ -54,7 +54,7 @@ resource "aws_iam_role_policy" "hfl" {
         "Action": [
             "lambda:InvokeFunction"
         ],
-        "Resource": "arn:aws:lambda:us-west-2:216690786812:function:hfl-target"
+        "Resource": "${var.target_lambda}"
     }
   ]
 }
