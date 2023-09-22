@@ -1,18 +1,18 @@
 provider "aws" {}
 
 resource "aws_iam_role" "iterator" {
-  name = "hfl-iterator"
+  name               = "hfl-iterator"
   assume_role_policy = file("${path.module}/assume_role_policy.json")
 }
 
 resource "aws_lambda_function" "iterator" {
   function_name = "hfl-iterator"
-  role = aws_iam_role.iterator.arn
-  s3_bucket = var.s3_bucket
-  s3_key = var.s3_key
-  handler = "iterator"
-  runtime = "go1.x"
-  timeout = 5
+  role          = aws_iam_role.iterator.arn
+  s3_bucket     = var.s3_bucket
+  s3_key        = var.s3_key
+  handler       = "bootstrap"
+  runtime       = "provided.al2"
+  timeout       = 5
 
   environment {
     variables = {
@@ -23,19 +23,19 @@ resource "aws_lambda_function" "iterator" {
 }
 
 resource "aws_sfn_state_machine" "hfl" {
-  name = "hfl-state-machine"
+  name     = "hfl-state-machine"
   role_arn = aws_iam_role.hfl-sfn.arn
 
   definition = templatefile("${path.module}/definition.json", {
     iterator_arn = aws_lambda_function.iterator.arn
   })
   depends_on = [
-    aws_lambda_function.iterator]
+  aws_lambda_function.iterator]
 }
 
 resource "aws_iam_role_policy" "hfl" {
-  name = "hfl-iterator"
-  role = aws_iam_role.iterator.id
+  name   = "hfl-iterator"
+  role   = aws_iam_role.iterator.id
   policy = <<EOP
 {
   "Version": "2012-10-17",
