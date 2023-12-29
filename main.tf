@@ -1,5 +1,3 @@
-provider "aws" {}
-
 resource "aws_iam_role" "iterator" {
   name               = "hfl-iterator"
   assume_role_policy = file("${path.module}/assume_role_policy.json")
